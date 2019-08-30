@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MemoriaReact</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>  
+  <body>
+    <div id="game" class="grid-container"></div>
+    <script type="text/babel">
+      class Card extends React.Component {
+        render() {
+          const style = {
+            backgroundColor: 'black',
+            width: '100px',
+            height: '140px',
+            position: 'absolute',
+            top:`${this.props.cardPosition.y}px`,
+            left: `${this.props.cardPosition.x}px`,
+            borderRadius: '12px'
+          }
+          const style2={
+            width: '75px',
+            height: '50px',
+            margin: '15px'
+          }
+          return (
+            <div style={style} >
+              <div className="front">
+                <img src="images/starwars_logo.png" style={style2}/>
+              </div>
+            </div>
+          )
+        }
+      }
+      
+      class Game extends React.Component {
+        //numerotarjetas.sort(() => 0.5 - Math.random())
+        constructor(props) {
+          super(props)
+          let numbercard = [1,2,3,4,1,2,3,4]
+          numbercard.sort(() => 0.5 - Math.random())
+          console.log(numbercard)
+          
+          this.mycards = {
+            card1: {
+              x: 20,
+              y: 20,
+              indice: numbercard[0]
+            },
+            card2: {
+              x: 140,
+              y: 20,
+              indice: numbercard[1]
+            },
+            card3: {
+              x: 260,
+              y: 20,
+              indice: numbercard[2]
+            },
+            card4: {
+              x: 380,
+              y: 20,
+              indice: numbercard[3]
+            },
+            card5: {
+              x: 20,
+              y: 180,
+              indice: numbercard[4]
+            },
+            card6: {
+              x: 140,
+              y: 180,
+              indice: numbercard[5]
+            },
+            card7: {
+              x: 260,
+              y: 180,
+              indice: numbercard[6]
+            },
+            card8: {
+              x: 380,
+              y: 180,
+              indice: numbercard[7]
+            }
+            
+          }
+        }
+  
+        
+        render() {
+          const style = {
+            backgroundColor: 'lightblue',
+            width: '500px',
+            height: '550px',
+            position: 'relative'
+          }
+          return (
+            <div style={style} tabIndex={0}>
+              <Card cardPosition={this.mycards.card1} />
+              <Card cardPosition={this.mycards.card2} />
+              <Card cardPosition={this.mycards.card3} />  
+              <Card cardPosition={this.mycards.card4} />    
+              <Card cardPosition={this.mycards.card5} />  
+              <Card cardPosition={this.mycards.card6} />
+              <Card cardPosition={this.mycards.card7} />  
+              <Card cardPosition={this.mycards.card8} />   
+            </div>
+          )
+        }
+      }
+      
+      ReactDOM.render(
+        <Game />,
+        document.getElementById('game')
+      )
+    </script>
+  </body>
+</html>
