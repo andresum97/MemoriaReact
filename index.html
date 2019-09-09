@@ -11,25 +11,67 @@
     <script type="text/babel">
       class Card extends React.Component {
         render() {
-          const style = {
+          var show = {}
+          var hide = {}
+          const stylecard = {
             backgroundColor: 'black',
             width: '100px',
             height: '140px',
-            position: 'absolute',
-            top:`${this.props.cardPosition.y}px`,
-            left: `${this.props.cardPosition.x}px`,
+            margin: '10px',
+            position: 'relative',
+            // top:`${this.props.cardPosition.y}px`,
+            // left: `${this.props.cardPosition.x}px`,
             borderRadius: '12px'
           }
-          const style2={
+          const img={
             width: '75px',
             height: '50px',
             margin: '15px'
           }
+          if(this.props.close){
+            front = {
+              cursor: 'pointer',
+              transition: '0.6s',
+              position: 'absolute',
+              transform: 'rotateY(0deg)'
+            }
+
+            back = {
+              backfaceVisibility: 'hidden',
+              display: 'flex',
+              transition: '0.6s',
+              position: 'absolute',
+              transform: 'rotateY(180deg)'
+            }
+          }else{
+            front = {
+              backfaceVisibility: 'hidden',
+              cursor: 'pointer',
+              transition: '0.6s',
+              display: 'flex',
+              position: 'absolute',
+              transform: 'rotateY(180deg)'
+            }
+
+            back = {
+              backfaceVisibility: 'hidden',
+              display: 'flex',
+              opacity: op,
+              transition: '0.6s',
+              position: 'absolute',
+              transform: 'rotateY(0deg)'
+            }
+          }
+
+          
+
+
           return (
-            <div style={style} >
+            <div style={stylecard} >
               <div className="front">
-                <img src="images/starwars_logo.png" style={style2}/>
+                <img src="images/starwars_logo.png" style={img}/>
               </div>
+              
             </div>
           )
         }
@@ -39,73 +81,58 @@
         //numerotarjetas.sort(() => 0.5 - Math.random())
         constructor(props) {
           super(props)
-          let numbercard = [1,2,3,4,1,2,3,4]
-          numbercard.sort(() => 0.5 - Math.random())
-          console.log(numbercard)
-          
-          this.mycards = {
-            card1: {
-              x: 20,
-              y: 20,
-              indice: numbercard[0]
-            },
-            card2: {
-              x: 140,
-              y: 20,
-              indice: numbercard[1]
-            },
-            card3: {
-              x: 260,
-              y: 20,
-              indice: numbercard[2]
-            },
-            card4: {
-              x: 380,
-              y: 20,
-              indice: numbercard[3]
-            },
-            card5: {
-              x: 20,
-              y: 180,
-              indice: numbercard[4]
-            },
-            card6: {
-              x: 140,
-              y: 180,
-              indice: numbercard[5]
-            },
-            card7: {
-              x: 260,
-              y: 180,
-              indice: numbercard[6]
-            },
-            card8: {
-              x: 380,
-              y: 180,
-              indice: numbercard[7]
-            }
-            
+
+          this.state = {
+            elements : ['leia','darth','han','r2d2','jedi','empire','boba_fett','trooper'],
+            totalcards: [],
+            openedcards : [],
+            guesscards : [],
+            guess: 0,
+            moves: 0
           }
+
+          var cardselements = [...this.state.elements,...this.state.elements]
+          cardselements = this.shuffleArray(cardselements);
+          this.state.totalcards = [...cardselements];
+
+          //numbercard.sort(() => 0.5 - Math.random())
+          console.log(this.state.totalcards);
+          
+        } 
+
+        shuffleArray(arr){
+          var i,j,t;
+          for(i = arr.length-1; i>0; i--){
+            j = Math.floor(Math.random()*(i+1));
+            t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+          }
+          return arr;
         }
-  
         
         render() {
-          const style = {
-            backgroundColor: 'lightblue',
-            width: '500px',
-            height: '550px',
-            position: 'relative'
+          const background = {
+            backgroundColor: 'grey',
+            width: '1000px',
+            height: '1050px',
+            // position: 'relative'
           }
+          const stylecard = {
+            display: 'flex',
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            justifyContent: 'space-around'
+          }    
           return (
-            <div style={style} tabIndex={0}>
-              <Card cardPosition={this.mycards.card1} />
-              <Card cardPosition={this.mycards.card2} />
-              <Card cardPosition={this.mycards.card3} />  
-              <Card cardPosition={this.mycards.card4} />    
-              <Card cardPosition={this.mycards.card5} />  
-              <Card cardPosition={this.mycards.card6} />
-              <Card cardPosition={this.mycards.card7} />  
-              <Card cardPosition={this.mycards.card8} />   
+            <div style={background} tabIndex={0}>
+              <div style={stylecard}>
+                {
+                  this.state.totalcards.map((index,card)=>{
+                    return <Card index={index}/>
+                  })
+                }
+              </div>
             </div>
           )
         }
